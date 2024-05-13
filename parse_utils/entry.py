@@ -12,11 +12,11 @@ def parse_and_download():
 
     layer_args, other_args = pop_kwargs_from_layers()
 
-    print(f'downloading model {layer_args.hg_model} to "{HG_DOWNLOAD_DIR}"')
+    # print(f'downloading model {layer_args.hg_model} to "{HG_DOWNLOAD_DIR}"')
     download_model_by_id(model_id=layer_args.hg_model,
                          local_dir=HG_DOWNLOAD_DIR,
                          token=layer_args.hg_token)
-    print(f'completed downloading model {layer_args.hg_model} to "{HG_DOWNLOAD_DIR}"')
+    # print(f'completed downloading model {layer_args.hg_model} to "{HG_DOWNLOAD_DIR}"')
 
     other_args = concat_download_dir_to_left_over_args(other_args,
                                                        download_dir=HG_DOWNLOAD_DIR)
