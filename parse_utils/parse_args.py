@@ -1,19 +1,42 @@
 import argparse
-
+import pathlib
 layer_parser = argparse.ArgumentParser()
-layer_parser.add_argument('--hg_model')
+layer_parser.add_argument('--lora_adapters')
 layer_parser.add_argument('--hg_token')
+
+
+def parse_lora_adapters_arg(lora_adapters_arg: str):
+    lora_adapters_settings = dict()
+
+    if lora_adapters_arg:
+
+        for lora_adapter_str in lora_adapters_arg.split(','):
+            lora_adapter_name, lora_adapter_model_id = lora_adapter_str.split('=')
+            lora_adapters_settings[lora_adapter_name.strip()] = lora_adapter_model_id.strip()
+
+    return lora_adapters_settings
 
 
 def pop_kwargs_from_layers():
 
     args, left_over_args = layer_parser.parse_known_args()
 
-    return args, left_over_args
+    lora_adapters_settings = parse_lora_adapters_arg(args.lora_adapters)
+
+    return args, lora_adapters_settings, left_over_args
 
 
-def concat_download_dir_to_left_over_args(left_over_args, download_dir):
+def construct_lora_adapter_arg_str_for_vllm(download_dir, lora_adapters_settings: dict):
 
-    left_over_args = [*left_over_args, "--download-dir", download_dir]
+    lora_adapter_args_vllm = []
 
-    return left_over_args
+    for lora_adapter_name, lora_adapter_model_id in lora_adapters_settings.items():
+
+        path_to_adapter = pathlib.Path(download_dir).joinpath(lora_adapter_model_id)
+
+        lora_adapter_args_vllm.append(f'{lora_adapter_name}={path_to_adapter}')
+
+    lora_adapter_args_str = ' '.join(lora_adapter_args_vllm)
+
+    return lora_adapter_args_str
+

@@ -2,9 +2,7 @@
 
 export PYTHONPATH="$(pwd):$PYTHONPATH"
 
+python3 parse_utils/entry.py "$@"
 
-SERVE_ARGS=$((python3 parse_utils/entry.py "$@") 2>&1)
-
-
-python3  -m vllm.entrypoints.openai.api_server "$SERVE_ARGS"
+#python3 -m vllm.entrypoints.openai.api_server --port 8000  --model unsloth/llama-3-8b --enable-lora --lora-modules review-lora=$(pwd)/downloaded_model/
 

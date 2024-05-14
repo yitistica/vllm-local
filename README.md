@@ -1,7 +1,5 @@
-### Workaround Vllm Image on giving supporting local HF model
+### Serving Vllm with Lora Adapter
 
-#### usage
-docker run vllm-local:latest --host 127.0.0.1 --port 8888 --hg_model model_id --hg_token hugging_face_hub_token
 
-#### from the docker hub
-docker run yeetech191/vllm-local:latest --host 127.0.0.1 --port 8888 --hg_model model_id --hg_token hugging_face_hub_token
+#### Usage
+docker run yeetech191/vllm-local:latest --host 0.0.0.0 --port 8000 --hg_model model_id --hg_token hugging_face_hub_token
